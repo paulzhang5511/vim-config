@@ -63,12 +63,12 @@ let $DATA_PATH =
 
 " Collection of user plugin list config file-paths
 let s:config_paths = get(g:, 'etc_config_paths', [
-	\ $VIM_PATH . '/config/plugins.yaml',
-	\ $VIM_PATH . '/config/local.plugins.yaml',
-	\ $VIM_PATH . '/usr/vimrc.yaml',
-	\ $VIM_PATH . '/usr/vimrc.json',
-	\ $VIM_PATH . '/vimrc.yaml',
-	\ $VIM_PATH . '/vimrc.json',
+	\ $VIM_PATH . g:separator . 'config' . g:separator . 'plugins.yaml',
+	\ $VIM_PATH . g:separator . 'config' . g:separator . 'local.plugins.yaml',
+	\ $VIM_PATH . g:separator . 'usr' . g:separator . 'vimrc.yaml',
+	\ $VIM_PATH . g:separator . 'usr' . g:separator . 'vimrc.json',
+	\ $VIM_PATH . g:separator . 'vimrc.yaml',
+	\ $VIM_PATH . g:separator . 'vimrc.json',
 	\ ])
 
 " Filter non-existent config paths
@@ -77,19 +77,20 @@ call filter(s:config_paths, 'filereadable(v:val)')
 function! s:main()
 	if has('vim_starting')
 		" When using VIMINIT trick for exotic MYVIMRC locations, add path now.
-		if &runtimepath !~# $VIM_PATH
-			set runtimepath^=$VIM_PATH
-			set runtimepath+=$VIM_PATH/after
-		endif
+		" windows系统出现错误
+		" if &runtimepath !~# $VIM_PATH
+		" 	set runtimepath^=$VIM_PATH
+		" 	set runtimepath+=$VIM_PATH/after
+		" endif
 
 		" Ensure data directories
 		for s:path in [
 				\ $DATA_PATH,
-				\ $DATA_PATH . '/undo',
-				\ $DATA_PATH . '/backup',
-				\ $DATA_PATH . '/session',
-				\ $DATA_PATH . '/swap',
-				\ $VIM_PATH . '/spell' ]
+				\ $DATA_PATH . g:separator . 'undo',
+				\ $DATA_PATH . g:separator . 'backup',
+				\ $DATA_PATH . g:separator . 'session',
+				\ $DATA_PATH . g:separator . 'swap',
+				\ $VIM_PATH . g:separator . 'spell' ]
 			if ! isdirectory(s:path)
 				call mkdir(s:path, 'p')
 			endif
@@ -97,16 +98,19 @@ function! s:main()
 
 		" Python interpreter settings
 		if has('nvim')
-			" Try the virtualenv created by venv.sh
-			let l:virtualenv = $DATA_PATH . '/venv/bin/python'
-			if empty(l:virtualenv) || ! filereadable(l:virtualenv)
-				" Fallback to old virtualenv location
-				let l:virtualenv = $DATA_PATH . '/venv/neovim3/bin/python'
+			if (has('win64')) 
+				let g:python3_host_prog = '~'.g:separator.'AppData'.g:separator.'Local'.g:separator.'Programs'.g:separator.'Python'.g:separator.'Python37'.g:separator.'python.exe' 
+			else
+				" Try the virtualenv created by venv.sh
+				let l:virtualenv = $DATA_PATH . '/venv/bin/python'
+				if empty(l:virtualenv) || ! filereadable(l:virtualenv)
+					" Fallback to old virtualenv location
+					let l:virtualenv = $DATA_PATH . '/venv/neovim3/bin/python'
+				endif
+				if filereadable(l:virtualenv)
+					let g:python3_host_prog = l:virtualenv
+				endif
 			endif
-			if filereadable(l:virtualenv)
-				let g:python3_host_prog = l:virtualenv
-			endif
-
 		elseif has('pythonx')
 			if has('python3')
 				set pyxversion=3
@@ -121,7 +125,7 @@ function! s:main()
 endfunction
 
 function! s:use_dein()
-	let l:cache_path = $DATA_PATH . '/dein'
+	let l:cache_path = $DATA_PATH . g:separator . 'dein'
 
 	if has('vim_starting')
 		" Use dein as a plugin manager
@@ -129,8 +133,8 @@ function! s:use_dein()
 		let g:dein#install_max_processes = 12
 
 		" Add dein to vim's runtimepath
-		if &runtimepath !~# '/dein.vim'
-			let s:dein_dir = l:cache_path . '/repos/github.com/Shougo/dein.vim'
+		if &runtimepath !~# g:separator.'dein.vim'
+			let s:dein_dir = l:cache_path .g:separator.'repos'.g:separator.'github.com'.g:separator.'Shougo'.g:separator.'dein.vim'
 			" Clone dein if first-time setup
 			if ! isdirectory(s:dein_dir)
 				execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
@@ -160,8 +164,8 @@ function! s:use_dein()
 		endfor
 
 		" Add any local ./dev plugins
-		if isdirectory($VIM_PATH . '/dev')
-			call dein#local($VIM_PATH . '/dev', { 'frozen': 1, 'merged': 0 })
+		if isdirectory($VIM_PATH . g:separator . 'dev')
+			call dein#local($VIM_PATH . g:separator . 'dev', { 'frozen': 1, 'merged': 0 })
 		endif
 		call dein#end()
 
@@ -193,9 +197,9 @@ endfunction
 
 function! s:use_plug() abort
 	" vim-plug package-manager initialization
-	let l:cache_root = $DATA_PATH . '/plug'
-	let l:cache_init = l:cache_root . '/init.vimplug'
-	let l:cache_repos = l:cache_root . '/repos'
+	let l:cache_root = $DATA_PATH . g:separator . 'plug'
+	let l:cache_init = l:cache_root . g:separator . '/init.vimplug'
+	let l:cache_repos = l:cache_root . g:separator . '/repos'
 
 	augroup user_plugin_vimplug
 		autocmd!

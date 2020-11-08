@@ -16,7 +16,7 @@ endfunction
 
 function! s:theme_autoload()
 	if exists('g:colors_name')
-		let theme_path = $VIM_PATH . '/themes/' . g:colors_name . '.vim'
+		let theme_path = $VIM_PATH . g:separator . 'themes'. g:separator . g:colors_name . '.vim'
 		if filereadable(theme_path)
 			execute 'source' fnameescape(theme_path)
 		endif
@@ -26,7 +26,7 @@ function! s:theme_autoload()
 endfunction
 
 function! s:theme_cache_file()
-	return $DATA_PATH . '/theme.txt'
+	return $DATA_PATH . g:separator . 'theme.txt'
 endfunction
 
 function! s:theme_cached_scheme(default)

@@ -19,7 +19,7 @@ endif
 let g:loaded_sessionsplugin = 1
 
 " Options
-let g:session_directory = get(g:, 'session_directory', $DATA_PATH . '/session')
+let g:session_directory = get(g:, 'session_directory', $DATA_PATH . g:separator . 'session')
 
 " Save and persist session
 command! -nargs=? -complete=customlist,<SID>session_list SessionSave
@@ -44,7 +44,7 @@ function! s:session_save(name)
 		call mkdir(g:session_directory, 'p')
 	endif
 	let file_name = empty(a:name) ? s:project_name() : a:name
-	let file_path = g:session_directory.'/'.file_name.'.vim'
+	let file_path = g:session_directory.g:separator.file_name.'.vim'
 	execute 'mksession! '.fnameescape(file_path)
 	let v:this_session = file_path
 
@@ -55,7 +55,7 @@ endfunction
 
 function! s:session_load(name)
 	let file_name = empty(a:name) ? s:project_name() : a:name
-	let file_path = g:session_directory.'/'.file_name.'.vim'
+	let file_path = g:session_directory.g:separator.file_name.'.vim'
 
 	if ! empty(v:this_session) && ! exists('g:SessionLoad')
 		\ |   execute 'mksession! '.fnameescape(v:this_session)
