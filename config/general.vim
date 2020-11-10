@@ -238,7 +238,7 @@ set cmdheight=2         " Height of the command line
 set cmdwinheight=5      " Command-line lines
 set noequalalways       " Don't resize windows on split or close
 set laststatus=2        " Always show a status line
-set colorcolumn=+0      " Column highlight at textwidth's max character-limit
+"set colorcolumn=+0      " 80个字符竖直分割线 
 set display=lastline
 
 if has('folding') && has('vim_starting')

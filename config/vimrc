@@ -80,6 +80,6 @@ endif
 call s:source_file('config' . g:separator .'statusline.vim')
 call s:source_file('config' . g:separator . 'tabline.vim')
 
-set secure
+"set secure
 
 " vim: set ts=2 sw=2 tw=80 noet :

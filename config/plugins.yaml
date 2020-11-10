@@ -389,19 +389,19 @@
     let g:SignatureIncludeMarkers = repeat('⚐', 10)
     autocmd user_events User GitGutter call signature#sign#Refresh()
 
-- repo: nathanaelkane/vim-indent-guides
-  on_event: FileType
-  hook_post_source: IndentGuidesEnable
-  hook_add: |-
-    let g:indent_guides_default_mapping = 0
-    let g:indent_guides_tab_guides = 0
-    let g:indent_guides_color_change_percent = 3
-    let g:indent_guides_guide_size = 1
-    let g:indent_guides_exclude_filetypes = [
-      \ 'help', 'defx', 'denite', 'denite-filter', 'startify',
-      \ 'vista', 'vista_kind', 'tagbar', 'lsp-hover', 'clap_input',
-      \ 'any-jump', 'gina-status', 'gina-commit', 'gina-log'
-      \ ]
+# - repo: nathanaelkane/vim-indent-guides
+#   on_event: FileType
+#   hook_post_source: IndentGuidesEnable
+#   hook_add: |-
+#     let g:indent_guides_default_mapping = 0
+#     let g:indent_guides_tab_guides = 0
+#     let g:indent_guides_color_change_percent = 3
+#     let g:indent_guides_guide_size = 1
+#     let g:indent_guides_exclude_filetypes = [
+#       \ 'help', 'defx', 'denite', 'denite-filter', 'startify',
+#       \ 'vista', 'vista_kind', 'tagbar', 'lsp-hover', 'clap_input',
+#       \ 'any-jump', 'gina-status', 'gina-commit', 'gina-log'
+#       \ ]
 
 - repo: rhysd/committia.vim
   on_event: BufReadPost
@@ -484,9 +484,11 @@
   merged: 0
   hook_add: |-
     let g:lsp_settings = {
-    \   'efm-langserver': {'disabled': 1},
-    \   'gopls': {
-    \     'cmd': ['gopls', '-remote=auto'],
+    \   'rust-analyzer': {
+    \     'cmd': ['rust-analyzer'],
+    \   },
+    \   'kotlin-language-server': {
+    \     'cmd': ['kotlin-language-server'],
     \   },
     \   'yaml-language-server': {
     \     'allowlist': ['yaml', 'yaml.ansible'],
