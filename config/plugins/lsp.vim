@@ -15,17 +15,13 @@ function! s:on_lsp_buffer_enabled() abort
 		nmap <silent><buffer> K  <Plug>(lsp-hover)
 	endif
 
-	nmap <silent><buffer> gr     <Plug>(lsp-references)
-	nmap <silent><buffer> gi     <Plug>(lsp-peek-implementation)
-	nmap <silent><buffer> gy     <Plug>(lsp-peek-type-definition)
-	nmap <buffer><leader>rn      <Plug>(lsp-rename)
-	nmap <silent><buffer> gd  	<Plug>(lsp-definition)
-	nmap <silent><buffer> g<C-]> <Plug>(lsp-peek-definition)
-	nmap <silent><buffer> <C-]>  <Plug>(lsp-peek-declaration)
-	nmap <silent><buffer> gY     <Plug>(lsp-type-hierarchy)
-	nmap <silent><buffer> ,s     <Plug>(lsp-signature-help)
-	nmap <silent><buffer> [d     <Plug>(lsp-previous-diagnostic)
-	nmap <silent><buffer> ]d     <Plug>(lsp-next-diagnostic)
+ 	nmap <silent><buffer> gd <plug>(lsp-definition)
+    nmap <silent><buffer> gr <plug>(lsp-references)
+    nmap <silent><buffer> gi <plug>(lsp-implementation)
+    nmap <silent><buffer> gt <plug>(lsp-type-definition)
+    nmap <silent><buffer> <leader>rn <plug>(lsp-rename)
+    nmap <silent><buffer> [g <Plug>(lsp-previous-diagnostic)
+    nmap <silent><buffer> ]g <Plug>(lsp-next-diagnostic)
 endfunction
 
 augroup lsp_user_plugin

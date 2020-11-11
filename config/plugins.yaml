@@ -490,6 +490,9 @@
     \   'kotlin-language-server': {
     \     'cmd': ['kotlin-language-server'],
     \   },
+    \   'vim-language-server': {
+    \     'cmd': ['vim-language-server'],
+    \   },
     \   'yaml-language-server': {
     \     'allowlist': ['yaml', 'yaml.ansible'],
     \   }
